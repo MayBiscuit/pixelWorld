@@ -3,7 +3,8 @@ package models
 import (
 	"bubble/dao"
 	"encoding/json"
-	"fmt"
+	"errors"
+	"github.com/jinzhu/gorm"
 )
 
 type World struct {
@@ -21,10 +22,10 @@ func GetAllWorld(id string) (worldList []World, err error) {
 		return nil, err
 	}
 
-	fmt.Println("Query result:")
-	for _, world := range worldList {
-		fmt.Printf("World: %+v\n", world)
-	}
+	//fmt.Println("Query result:")
+	//for _, world := range worldList {
+	//	fmt.Printf("World: %+v\n", world)
+	//}
 
 	return
 }
@@ -53,4 +54,65 @@ func GetSearchWorldList(id string, key string) (worldList []*World, err error) {
 func CreateWorld(w *World) (err error) {
 	err = dao.DB.Create(&w).Error
 	return
+}
+
+func ConfirmTemplate(tid int, wid int) (err error) {
+
+	var template Background
+	var world World
+
+	if err = dao.DB.Where("bid = ?", tid).First(&template).Error; err != nil {
+		return err
+	}
+	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	world.WPicture = template.BPicture
+
+	if err = dao.DB.Save(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ConfirmPicture(background string, wid int) (err error) {
+	var world World
+
+	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	world.WPicture = json.RawMessage(background)
+
+	if err = dao.DB.Save(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetThisWorld(wid int) (world World, err error) {
+	if err = dao.DB.Where("wid = ?", wid).Find(&world).Error; err != nil {
+		return World{}, err
+	}
+	return
+}
+
+func GetPicture(wid int) ([][]string, error) {
+	var world World
+	if err := dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return nil, errors.New("record not found")
+		}
+		return nil, err
+	}
+
+	var wpicture [][]string
+	if err := json.Unmarshal(world.WPicture, &wpicture); err != nil {
+		return nil, err
+	}
+
+	return wpicture, nil
 }

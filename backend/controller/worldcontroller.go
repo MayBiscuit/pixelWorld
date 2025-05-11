@@ -2,8 +2,15 @@ package controller
 
 import (
 	"bubble/models"
+	"bubble/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"image"
+	"image/draw"
+	_ "image/jpeg"
+	_ "image/png"
 	"net/http"
+	"strconv"
 )
 
 func CreateWorld(c *gin.Context) {
@@ -38,42 +45,141 @@ func CreateWorld(c *gin.Context) {
 
 }
 
-func GetAllTemplateList(context *gin.Context) {
+func GetAllTemplateList(c *gin.Context) {
+	templateList, err := models.GetAllTemplate()
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, templateList)
+	}
+}
+
+func GetAllTypeTemplateList(c *gin.Context) {
+	category := c.Query("type")
+
+	templateList, err := models.GetAllTypeTemplate(category)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, templateList)
+	}
+}
+
+func GetSearchTemplateList(c *gin.Context) {
+	key := c.Query("key")
+
+	templateList, err := models.GetSearchTemplateList(key)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, templateList)
+	}
+}
+
+func GetSearchTypeTemplateList(c *gin.Context) {
+	key := c.Query("key")
+	category := c.Query("type")
+
+	templateList, err := models.GetSearchTypeTemplateList(key, category)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, templateList)
+	}
+}
+
+func GetChooseTemplate(c *gin.Context) {
+	tidStr := c.Query("bid")
+	tid, _ := strconv.Atoi(tidStr)
+
+	background, err := models.GetChooseTemplate(tid)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, background)
+	}
+}
+
+func ConfirmTemplate(c *gin.Context) {
+	tidStr := c.Query("tid")
+	tid, _ := strconv.Atoi(tidStr)
+	widStr := c.Query("wid")
+	wid, _ := strconv.Atoi(widStr)
+
+	err := models.ConfirmTemplate(tid, wid)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"meg": "confirm success"})
+	}
+}
+
+func UploadPicture(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "文件上传失败",
+		})
+		return
+	}
+
+	src, err := file.Open()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "无法打开文件",
+		})
+		return
+	}
+	defer src.Close()
+
+	img, _, err := image.Decode(src)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "图像解码失败: " + err.Error()})
+		return
+	}
+
+	rgbaImg, ok := img.(*image.RGBA)
+	if !ok {
+		rgbaImg = image.NewRGBA(img.Bounds())
+		draw.Draw(rgbaImg, rgbaImg.Bounds(), img, image.Point{}, draw.Src)
+	}
+
+	background, _ := utils.GenerateByPicture(rgbaImg, 10)
+
+	c.JSON(http.StatusOK, background)
 
 }
 
-func GetAllTypeTemplateList(context *gin.Context) {
+func ConfirmPicture(c *gin.Context) {
+	background := c.Query("background")
+	widStr := c.Query("wid")
+	wid, _ := strconv.Atoi(widStr)
 
+	err := models.ConfirmPicture(background, wid)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"meg": "confirm success"})
+	}
 }
 
-func GetSearchTemplateList(context *gin.Context) {
+func UploadDescription(c *gin.Context) {
+	description := c.Query("description")
+	fmt.Fprint(c.Writer, description)
+	background, _ := utils.GenerateByDescription(description)
 
+	c.JSON(http.StatusOK, background)
 }
 
-func GetSearchTypeTemplateList(context *gin.Context) {
+func ConfirmDescription(c *gin.Context) {
+	background := c.Query("background")
+	widStr := c.Query("wid")
+	wid, _ := strconv.Atoi(widStr)
 
-}
-
-func GetChooseTemplate(context *gin.Context) {
-
-}
-
-func ConfirmTemplate(context *gin.Context) {
-
-}
-
-func UploadPicture(context *gin.Context) {
-
-}
-
-func ConfirmPicture(context *gin.Context) {
-
-}
-
-func UploadDescription(context *gin.Context) {
-
-}
-
-func ConfirmDescription(context *gin.Context) {
-
+	err := models.ConfirmPicture(background, wid)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"meg": "confirm success"})
+	}
 }

@@ -23,8 +23,9 @@ func SetupRouter() *gin.Engine {
 	worldGroup := r.Group("/world")
 	{
 		worldGroup.POST("/createworld", controller.CreateWorld)
+		//worldGroup.GET("/all", controller.GetAllTemplateList)
 
-		templateGroup := r.Group("/template")
+		templateGroup := worldGroup.Group("/template")
 		{
 			templateGroup.GET("/all", controller.GetAllTemplateList)
 			templateGroup.GET("/alltype", controller.GetAllTypeTemplateList)
@@ -34,13 +35,13 @@ func SetupRouter() *gin.Engine {
 			templateGroup.PUT("/confirm", controller.ConfirmTemplate)
 		}
 
-		pictureGroup := r.Group("/picture")
+		pictureGroup := worldGroup.Group("/picture")
 		{
 			pictureGroup.POST("/upload", controller.UploadPicture)
 			pictureGroup.PUT("/confirm", controller.ConfirmPicture)
 		}
 
-		aiGroup := r.Group("/ai")
+		aiGroup := worldGroup.Group("/ai")
 		{
 			aiGroup.POST("/upload", controller.UploadDescription)
 			aiGroup.PUT("/confirm", controller.ConfirmDescription)
@@ -49,13 +50,13 @@ func SetupRouter() *gin.Engine {
 
 	drawGroup := r.Group("/draw")
 	{
-		drawGroup.GET("/thisworld", controller.GetThisWorld)
-		drawGroup.GET("/draw", controller.Draw)
+		drawGroup.GET("/thisworld/:wid", controller.GetThisWorld)
+		drawGroup.PUT("/draw", controller.Draw)
 
 		drawGroup.GET("/colorrank", controller.GetColorRank)
 		drawGroup.GET("/save", controller.SavePicture)
 
-		stickerGroup := r.Group("/sticker")
+		stickerGroup := drawGroup.Group("/sticker")
 		{
 			stickerGroup.GET("/all", controller.GetAllStickerList)
 			stickerGroup.GET("/alltype", controller.GetAllTypeStickerList)
