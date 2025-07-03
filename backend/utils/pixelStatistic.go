@@ -60,12 +60,43 @@ func hexToRGB(hex string) (color.RGBA, error) {
 //	return "", nil
 //}
 
+//func SavePicture(colors [][]string) ([]byte, error) {
+//	if len(colors) == 0 || len(colors[0]) == 0 {
+//		return nil, fmt.Errorf("empty color array")
+//	}
+//
+//	width, height := len(colors[0]), len(colors)
+//	img := image.NewRGBA(image.Rect(0, 0, width, height))
+//
+//	for y, row := range colors {
+//		for x, hex := range row {
+//			rgb, err := hexToRGB(hex)
+//			if err != nil {
+//				return nil, fmt.Errorf("invalid color format at (%d, %d): %v", x, y, err)
+//			}
+//			img.Set(x, y, rgb)
+//		}
+//	}
+//	var buf []byte
+//	w := bytes.NewBuffer(buf)
+//	err := png.Encode(w, img)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	return w.Bytes(), nil
+//}
+
 func SavePicture(colors [][]string) ([]byte, error) {
 	if len(colors) == 0 || len(colors[0]) == 0 {
 		return nil, fmt.Errorf("empty color array")
 	}
 
-	width, height := len(colors[0]), len(colors)
+	// 原始尺寸
+	originalWidth, originalHeight := len(colors[0]), len(colors)
+	// 放大20倍后的尺寸
+	width, height := originalWidth*20, originalHeight*20
+
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	for y, row := range colors {
@@ -74,15 +105,21 @@ func SavePicture(colors [][]string) ([]byte, error) {
 			if err != nil {
 				return nil, fmt.Errorf("invalid color format at (%d, %d): %v", x, y, err)
 			}
-			img.Set(x, y, rgb)
+
+			// 将原始坐标映射到放大后的坐标
+			for newY := y * 20; newY < (y+1)*20; newY++ {
+				for newX := x * 20; newX < (x+1)*20; newX++ {
+					img.Set(newX, newY, rgb)
+				}
+			}
 		}
 	}
-	var buf []byte
-	w := bytes.NewBuffer(buf)
-	err := png.Encode(w, img)
+
+	var buf bytes.Buffer
+	err := png.Encode(&buf, img)
 	if err != nil {
 		return nil, err
 	}
 
-	return w.Bytes(), nil
+	return buf.Bytes(), nil
 }

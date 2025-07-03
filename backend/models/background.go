@@ -3,6 +3,8 @@ package models
 import (
 	"bubble/dao"
 	"encoding/json"
+	"errors"
+	"github.com/jinzhu/gorm"
 )
 
 type Background struct {
@@ -51,4 +53,21 @@ func GetChooseTemplate(tid int) (background Background, err error) {
 		return Background{}, err
 	}
 	return
+}
+
+func GetTemplate(tid int) ([][]string, error) {
+	var bg Background
+	if err := dao.DB.Where("bid = ?", tid).First(&bg).Error; err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return nil, errors.New("record not found")
+		}
+		return nil, err
+	}
+
+	var bpicture [][]string
+	if err := json.Unmarshal(bg.BPicture, &bpicture); err != nil {
+		return nil, err
+	}
+
+	return bpicture, nil
 }

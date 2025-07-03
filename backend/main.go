@@ -36,6 +36,7 @@ func main() {
 	//dao.DB.AutoMigrate(&models.Todo{})
 	// 注册路由
 	r := routers.SetupRouter()
+
 	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
 		fmt.Printf("server startup failed, err:%v\n", err)
 	}

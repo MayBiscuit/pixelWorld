@@ -71,3 +71,45 @@ func GetSearchWorldList(context *gin.Context) {
 		context.JSON(http.StatusOK, worldList)
 	}
 }
+
+func GetSearchIngWorldList(context *gin.Context) {
+	id, ok := context.Params.Get("userid")
+	if !ok {
+		context.JSON(http.StatusOK, gin.H{"error": "无效的id"})
+		return
+	}
+
+	key := context.Query("key")
+	if key == "" {
+		context.JSON(http.StatusOK, gin.H{"error": "无效的key"})
+		return
+	}
+
+	worldList, err := models.GetSearchIngWorldList(id, key)
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		context.JSON(http.StatusOK, worldList)
+	}
+}
+
+func GetSearchEdWorldList(context *gin.Context) {
+	id, ok := context.Params.Get("userid")
+	if !ok {
+		context.JSON(http.StatusOK, gin.H{"error": "无效的id"})
+		return
+	}
+
+	key := context.Query("key")
+	if key == "" {
+		context.JSON(http.StatusOK, gin.H{"error": "无效的key"})
+		return
+	}
+
+	worldList, err := models.GetSearchEdWorldList(id, key)
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{"error": err.Error()})
+	} else {
+		context.JSON(http.StatusOK, worldList)
+	}
+}

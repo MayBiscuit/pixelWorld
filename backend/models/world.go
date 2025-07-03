@@ -4,6 +4,7 @@ import (
 	"bubble/dao"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/jinzhu/gorm"
 )
 
@@ -18,20 +19,15 @@ type World struct {
 }
 
 func GetAllWorld(id string) (worldList []World, err error) {
-	if err = dao.DB.Where("userid = ?", id).Find(&worldList).Error; err != nil {
+	if err = dao.DB.Where("userid = ?", id).Order("wid DESC").Find(&worldList).Error; err != nil {
 		return nil, err
 	}
-
-	//fmt.Println("Query result:")
-	//for _, world := range worldList {
-	//	fmt.Printf("World: %+v\n", world)
-	//}
 
 	return
 }
 
 func GetIngWorld(id string) (worldList []*World, err error) {
-	if err = dao.DB.Where("wstatus = ? AND userid = ?", "绘制中", id).Find(&worldList).Error; err != nil {
+	if err = dao.DB.Where("wstatus = ? AND userid = ?", "绘制中", id).Order("wid DESC").Find(&worldList).Error; err != nil {
 		return nil, err
 	}
 	return
@@ -77,14 +73,15 @@ func ConfirmTemplate(tid int, wid int) (err error) {
 	return nil
 }
 
-func ConfirmPicture(background string, wid int) (err error) {
+func ConfirmPicture(background string, wid int, wsize int) (err error) {
 	var world World
-
+	fmt.Println("wid: ", wid)
 	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
 		return err
 	}
 
 	world.WPicture = json.RawMessage(background)
+	world.WSize = wsize
 
 	if err = dao.DB.Save(&world).Error; err != nil {
 		return err
@@ -115,4 +112,101 @@ func GetPicture(wid int) ([][]string, error) {
 	}
 
 	return wpicture, nil
+}
+
+func ConfirmEmpty(wid int, size int) (err error) {
+	var world World
+
+	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+	world.WSize = size
+	if err = dao.DB.Save(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteWorld(wid int) error {
+	var world World
+	if err := dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	// 删除世界
+	if err := dao.DB.Delete(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ChangeWorldStatus(wid int) error {
+	var world World
+	if err := dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	// 切换状态
+	if world.WStatus == "绘制中" {
+		world.WStatus = "绘制完毕"
+	} else if world.WStatus == "绘制完毕" {
+		world.WStatus = "绘制中"
+	} else {
+		return errors.New("无效的 wstatus")
+	}
+
+	// 更新 wstatus
+	if err := dao.DB.Model(&world).Update("wstatus", world.WStatus).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func GetSearchIngWorldList(id string, key string) (worldList []*World, err error) {
+	if err := dao.DB.Where("userid = ?", id).Where("wstatus = ?", "绘制中").Where("wdesc LIKE ? OR wname LIKE ?", "%"+key+"%", "%"+key+"%").Find(&worldList).Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
+func GetSearchEdWorldList(id string, key string) (worldList []*World, err error) {
+	if err := dao.DB.Where("userid = ?", id).Where("wstatus = ?", "绘制完毕").Where("wdesc LIKE ? OR wname LIKE ?", "%"+key+"%", "%"+key+"%").Find(&worldList).Error; err != nil {
+		return nil, err
+	}
+	return
+}
+
+func ModifyWorldName(name string, wid int) (err error) {
+	var world World
+	fmt.Println("wid: ", wid)
+	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	world.WName = name
+
+	if err = dao.DB.Save(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func ModifyWorldDesc(desc string, wid int) (err error) {
+	var world World
+	fmt.Println("wid: ", wid)
+	if err = dao.DB.Where("wid = ?", wid).First(&world).Error; err != nil {
+		return err
+	}
+
+	world.WDesc = desc
+
+	if err = dao.DB.Save(&world).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
