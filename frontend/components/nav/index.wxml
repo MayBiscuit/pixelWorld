@@ -1,0 +1,4 @@
+<view class="home-navbar">
+  <t-navbar title="{{ navType === 'search' ? '' : titleText }}">
+  </t-navbar>
+</view>

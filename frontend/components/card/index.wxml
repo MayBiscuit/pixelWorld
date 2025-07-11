@@ -1,0 +1,9 @@
+<view class="home-card">
+  <t-image t-class="home-card__image" src="{{url}}" mode="aspectFill" />
+  <view class="home-card__name">
+    <text>名称：{{name}}</text>
+  </view>
+  <view class="home-card__desc">
+    <text>描述：{{desc}}</text>
+  </view>
+</view>

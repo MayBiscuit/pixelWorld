@@ -1,0 +1,33 @@
+@import '/variable.less';
+
+.home-card {
+  display: inline-flex;
+  flex-direction: column;
+  width: 340rpx;
+  height: 488rpx;
+  border-radius: 9px;
+  background: @bg-color-white;
+
+  &__image {
+    width: 340rpx;
+    height: 340rpx;
+  }
+
+  &__name {
+    padding-top: 32rpx;
+    padding-bottom: 16rpx;
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    font-weight: 400;
+    font-size: @font-size-small;
+  }
+
+  &__desc {
+    padding-left: 32rpx;
+    padding-right: 32rpx;
+    font-weight: 400;
+    font-size: 24rpx;
+    color: gray;
+  }
+
+}

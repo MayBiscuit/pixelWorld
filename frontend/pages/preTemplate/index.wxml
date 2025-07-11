@@ -1,0 +1,72 @@
+<!--pages/preTemplate/index.wxml-->
+<view class="page">
+  <view class="container">
+    <t-navbar title="内置模板" left-arrow bind:click-left="navigateBack"></t-navbar>
+    <!-- 画布（占位） -->
+    <view class="icon-container" wx:if="{{pixelData.length === 0}}">
+      <text class="plus-icon">+</text>
+    </view>
+    <!-- 画布（数组） -->
+    <view class="pixel-grid">
+    <view 
+      wx:for="{{pixelData}}" 
+      wx:for-index="parentindex" 
+      wx:for-item="outerItem"
+      wx:key="id"
+      class="pixel-row"
+    >
+      <view 
+        wx:for="{{outerItem}}" 
+        wx:for-item="innerItem" 
+        wx:for-index="childindex" 
+        wx:key="id"
+        class="pixel" 
+        style="background-color:{{innerItem}}; width: {{pixelSize}}; height: {{pixelSize}};"
+        data-row="{{parentindex}}"
+        data-col="{{childindex}}"
+        ></view>
+      </view>
+    </view>
+    <view class="option-container">
+      <!-- <view class="slider-container">
+        <text>画布大小</text>
+        <t-slider value="{{gridSize}}" min="10" max="25" step="5"  label="${value}" show-value bind:change="onGridSizeChange"></t-slider>
+      </view> -->
+      <!-- 按钮行 -->
+      <view class="buttons">
+            <t-button theme="primary" content="选择" size="medium" bindtap="openPopup"></t-button>
+            <t-button theme="primary" content="确定" size="medium" bindtap="goStudio"></t-button>
+      </view>
+    </view>
+    <!-- TODO:popup后back回退失败，需要查看页面栈 -->
+    <!-- TODO:整体右移，需要调整样式 -->
+    <!-- 选择模板弹窗 -->
+    <t-popup class="popup" direction="bottom" visible="{{popupVisible}}" placement="{{cur.value || 'bottom'}}" bind:after-close="closePopup">
+      <view class="tabs">
+        <t-icon class="close" name="close-circle" size="24" bindtap="closePopup"></t-icon>
+        <t-button block class="tab-button" size="large" variant="text" bindtap="onTabTap" data-key="人物">人物</t-button>
+        <t-button block class="tab-button" size="large" variant="text" bindtap="onTabTap" data-key="动物">动物</t-button>
+        <t-button block class="tab-button" size="large" variant="text" bindtap="onTabTap" data-key="植物">植物</t-button>
+        <t-button block class="tab-button" size="large" variant="text" bindtap="onTabTap" data-key="元素">元素</t-button>
+        <t-button block class="tab-button" size="large" variant="text" >节日</t-button>
+      </view>
+      <view class="search-bar">
+        <view class="search-container">
+        <t-search
+          shape="round"
+          placeholder="搜索模板"
+          style="width: 75%; margin-right: 10rpx;"
+          bind:change="onInput" 
+          value="{{searchValue}}"
+        />
+        <t-button block class="tab-button" style="width: 25%;" bindtap="onSearch">搜索</t-button>
+      </view>
+      </view>
+      <view class="grid">
+        <block wx:for="{{backgroundInfo}}" wx:key="index">
+          <image class="grid-item" src="{{item.url}}" bindtap="onImageTap" data-bpicture="{{item.picture}}"></image>
+        </block>
+      </view>
+    </t-popup>
+  </view>
+</view>

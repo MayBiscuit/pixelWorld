@@ -1,0 +1,48 @@
+<!--pages/aiGenerate/index.wxml-->
+<view class="page">
+  <view class="container">
+    <t-navbar title="AI生图" left-arrow bind:click-left="navigateBack"></t-navbar>
+    <!-- 画布(占位) -->
+    <view class="icon-container" wx:if="{{pixelData.length === 0}}">
+      <text class="plus-icon">+</text>
+    </view>
+    <!-- 画布（数组） -->
+    <view class="pixel-grid">
+    <view 
+      wx:for="{{pixelData}}" 
+      wx:for-index="parentindex" 
+      wx:for-item="outerItem"
+      wx:key="id"
+      class="pixel-row"
+    >
+      <view 
+        wx:for="{{outerItem}}" 
+        wx:for-item="innerItem" 
+        wx:for-index="childindex" 
+        wx:key="id"
+        class="pixel" 
+        style="background-color:{{innerItem}}; width: {{pixelSize}}; height: {{pixelSize}};"
+        data-row="{{parentindex}}"
+        data-col="{{childindex}}"
+        ></view>
+      </view>
+    </view>
+    <!-- 画布大小 -->
+    <view class="option-container">
+      <view class="slider-container">
+        <text>画布大小</text>
+        <t-slider value="{{gridSize}}" min="10" max="25" step="5"  label="${value}" show-value bind:change="onGridSizeChange"></t-slider>
+      </view>
+      <!-- 底纹描述块 -->
+      <view class="description-section">
+        <text class="label">底纹描述</text>
+        <input type="text" class="custom-input"  placeholder="请输入内容" class="input" value="{{inputValue}}" bindinput="onInputChange"/>
+      </view>
+      <!-- 按钮行 -->
+      <view class="buttons">
+            <t-button theme="primary" content="生成" size="medium" bindtap="aiGenerate"></t-button>
+            <t-button theme="primary" content="确定" size="medium" bindtap="goStudio"></t-button>
+      </view>
+    </view>
+  </view>
+</view>

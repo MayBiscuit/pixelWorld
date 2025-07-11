@@ -1,0 +1,11 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-textarea": "tdesign-miniprogram/textarea/textarea",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-slider": "tdesign-miniprogram/slider/slider",
+    "t-divider": "tdesign-miniprogram/divider/divider"
+  }
+}

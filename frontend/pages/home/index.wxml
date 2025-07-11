@@ -1,0 +1,65 @@
+<nav nav-type="search" />
+<view class="home-container">
+  <view class="home-content">
+    <t-tabs defaultValue="recommend">
+      <t-tab-panel label="绘制完毕" value="recommend">
+        <t-pull-down-refresh
+          value="{{enable}}"
+          bind:refresh="onRefresh"
+          loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
+        >
+          <view class="home-card-list">
+            <!-- <t-swiper
+              list="{{swiperList}}"
+              navigation="{{ { type: 'dots-bar' } }}"
+              height="488rpx"
+              style="width: 340rpx"
+            /> -->
+            <card
+              wx:for="{{edcardInfo}}"
+              wx:key="index"
+              worldId="{{item.worldId}}"
+              name="{{item.name}}"
+              desc="{{item.desc}}"
+              url="{{item.url}}"
+              data-desc="{{item.desc}}"
+              data-worldid="{{item.worldId}}"
+              bindtap="navigateToWorld"
+            />
+          </view>
+        </t-pull-down-refresh>
+      </t-tab-panel>
+      <t-tab-panel label="绘制中" value="follow">
+        <t-pull-down-refresh
+          value="{{enable}}"
+          bind:refresh="onRefresh"
+          loadingTexts="{{['下拉刷新', '松手刷新', '正在刷新', '刷新完成']}}"
+        >
+        <view class="home-card-list">
+          <card
+            wx:for="{{ingcardInfo}}"
+            wx:key="index"
+            worldId="{{item.worldId}}"
+            name="{{item.name}}"
+            desc="{{item.desc}}"
+            url="{{item.url}}"
+            data-worldId="{{item.worldId}}"
+            bindtap="navigateToWorld"
+          />
+        </view>
+      </t-pull-down-refresh>
+      </t-tab-panel>
+    </t-tabs>
+  </view>
+</view>
+<view class="world-search">
+  <t-button theme="primary" size="large" icon="search" shape="round" bindtap="searchWorld">
+    搜索画室
+  </t-button>
+</view>
+<view class="home-release">
+  <t-button theme="primary" size="large" icon="add" shape="round" bindtap="goRelease">
+    创建画室
+  </t-button>
+</view>
+<t-message id="t-message" />

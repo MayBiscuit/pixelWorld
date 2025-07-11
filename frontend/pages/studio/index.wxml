@@ -1,0 +1,158 @@
+<!--pages/studio/index.wxml-->
+<view class="page">
+  <view class="container">
+    <t-navbar title="画室" left-arrow bind:click-left="navigateBack"></t-navbar>
+    <view class="top-container">
+      <view class="world-info">
+        <view class="world-name-row">
+          <view class="world-name">{{worldName}}</view>
+          <t-icon class="edit-icon" name="edit" bindtap="editWorldName" size="24rpx" />
+        </view>
+        <view class="world-desc-row">
+          <view class="world-desc">{{worldDesc}}</view>
+          <t-icon class="edit-icon" name="edit" bindtap="editWorldDesc" size="24rpx" />
+        </view>
+      </view>
+      <!-- 功能图标行 -->
+      <view class="function-container">
+        <view class="icon-wrapper">
+          <t-icon class="statistic-icon" name="chart-stacked" bindtap="showCount" size="48rpx" />
+        </view>
+        <view class="icon-wrapper">
+          <t-icon class="download-icon" name="download" bindtap="savePicture" size="48rpx" />
+        </view>
+        <view class="icon-wrapper">
+          <t-icon class="music-icon" name="component-switch" bindtap="changeWorldStatus" size="48rpx" />
+        </view>
+        <view class="icon-wrapper">
+          <t-icon class="video-icon" name="delete-1" bindtap="deleteWorld" size="48rpx" />
+        </view>
+        <view class="icon-wrapper">
+          <t-icon class="video-icon" name="home" bindtap="goHome" size="48rpx" />
+        </view>
+      </view>
+    </view>
+    <!-- 隐藏canavs 用于保存图片 -->
+    <canvas canvas-id="pixelCanvas" style="width:1360rpx;height:1360rpx;position: absolute; top: -9999px; left: -9999px;"></canvas>
+    <!-- 画布（占位） -->
+    <!-- <view class="icon-container">
+      <text class="plus-icon">+</text>
+    </view> -->
+    <!-- 画布（数组） -->
+    <!-- <view class="pixel-grid" catchtouchstart="startDrawing" catchtouchmove="draw" catchtouchend="endDrawing"> -->
+    <view class="pixel-grid">
+    <view 
+      wx:for="{{pixelData}}" 
+      wx:for-index="parentindex" 
+      wx:for-item="outerItem"
+      wx:key="id"
+      class="pixel-row"
+    >
+      <view 
+        wx:for="{{outerItem}}" 
+        wx:for-item="innerItem" 
+        wx:for-index="childindex" 
+        wx:key="id"
+        class="pixel" 
+        style="background-color:{{innerItem}}; width: {{pixelSize}}; height: {{pixelSize}};"
+        bindtap="togglePixel"
+        data-row="{{parentindex}}"
+        data-col="{{childindex}}"
+        ></view>
+      </view>
+    </view>
+    <!-- 色系推荐行 -->
+    <view class="color-all">
+      <view class="recommend-container">
+      <text>调色板</text>
+      </view>
+      <!-- 颜色选择行 -->
+      <view class="color-container">
+        <view class="row">
+          <block wx:for="{{row1}}" wx:key="*this">
+            <view class="item" wx:if="{{item.type === 'icon'}}">
+              <t-icon class="video-icon" name="{{item.iconType}}" bindtap="changeWhiteColor" size="56rpx" />
+            </view>
+            <view class="item" wx:elif="{{item.type === 'circle'}}">
+              <view class="circle" style="background-color:{{item.color}}" data-color="{{item.color}}" bindtap="changeCurrentColor"></view>
+            </view>
+          </block>
+        </view>
+        <view class="row">
+          <block wx:for="{{row2}}" wx:key="*this">
+            <view class="item" wx:if="{{item.type === 'icon'}}">
+              <!-- 暂时不弄贴纸功能 -->
+              <!-- <t-icon class="video-icon" name="{{item.iconType}}" size="56rpx" bindtap="openPopup" /> -->
+              <t-icon class="video-icon" name="{{item.iconType}}" size="56rpx" bindtap="showColorPicker" />
+            </view>
+            <view class="item" wx:elif="{{item.type === 'circle'}}">
+              <view class="circle" style="background-color:{{item.color}}" data-color="{{item.color}}" bindtap="changeCurrentColor"></view>
+            </view>
+          </block>
+        </view>
+        <view class="row">
+          <block wx:for="{{row3}}" wx:key="*this">
+            <view class="item" wx:if="{{item.type === 'icon'}}">
+              <!-- 暂时不弄贴纸功能 -->
+              <!-- <t-icon class="video-icon" name="{{item.iconType}}" size="56rpx" bindtap="openPopup" /> -->
+              <t-icon class="video-icon" name="{{item.iconType}}" size="56rpx" bindtap="randomChangeColor" />
+            </view>
+            <view class="item" wx:elif="{{item.type === 'circle'}}">
+              <view class="circle" style="background-color:{{item.color}}" data-color="{{item.color}}" bindtap="changeCurrentColor"></view>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+    </view>
+
+  <t-color-picker
+    enableAlpha
+    type="multiple"
+    bind:change="onColorChange"
+    bind:close="onColorPickerClose"
+    usePopup
+    swatch-colors="null"
+    visible="{{showColorPickerFlag}}"
+    value="{{currentColor}}"
+  ></t-color-picker>
+  <!-- 贴纸弹窗 -->
+  <t-popup class="popup" direction="bottom" visible="{{popupVisible}}" placement="{{cur.value || 'bottom'}}" bind:after-close="closePopup">
+    <view class="tabs">
+      <t-icon class="close" name="close-circle" size="24" bindtap="closePopup"></t-icon>
+      <t-button block class="tab-button" size="large" variant="text">人物</t-button>
+      <t-button block class="tab-button" size="large" variant="text">动物</t-button>
+      <t-button block class="tab-button" size="large" variant="text">植物</t-button>
+      <t-button block class="tab-button" size="large" variant="text">元素</t-button>
+      <t-button block class="tab-button" size="large" variant="text">节日</t-button>
+    </view>
+    <view class="search-bar">
+      <t-search
+        shape="round"
+        placeholder="搜索贴纸"
+      />
+    </view>
+    <view class="grid">
+      <block wx:for="{{12}}" wx:key="index">
+        <view class="grid-item"></view>
+      </block>
+    </view>
+  </t-popup>
+  <!-- 统计弹窗 -->
+  <view class="statistic-popup" wx:if="{{showStatisticPopup}}">
+    <view class="popup-content">
+      <view class="popup-title">常用色块</view>
+      <view class="popup-list">
+        <view wx:for="{{topColors}}" wx:key="index" class="popup-item">
+          <view class="color-box" style="background-color: {{item.color}};"></view>
+          <view class="color-info">
+            <view class="color-name">{{item.color}}</view>
+            <view class="color-count">{{item.count}} ({{item.percentage}}%)</view>
+          </view>
+          <view class="percentage-bar" style="background-color: {{item.color}}; width:{{item.percentage * 20}}rpx;"></view>
+        </view>
+      </view>
+      <t-icon name="close-circle"bindtap="closeStatisticPopup" size="56rpx" />
+    </view>
+  </view>
+</view>

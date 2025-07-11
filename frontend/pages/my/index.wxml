@@ -1,0 +1,31 @@
+<t-navbar></t-navbar>
+<view class="container">
+  <!-- <t-image t-class="home-card__image" src="data:image/png;base64,{{imgStr}}" mode="aspectFill" /> -->
+  <!-- <image src="{{tempFilePath}}" mode="widthFix" /> -->
+  <!-- <block wx:for="{{edcardInfo}}" wx:key="worldId">
+    <view class="card">
+      <image src="{{item.url}}" mode="aspectFit" />
+      <text>{{item.name}}</text>
+      <text>{{item.desc}}</text>
+    </view>
+  </block> -->
+  <view wx:if="{{!isLoggedIn}}" class="login-content">
+    <image class="image-login-false" src="/static/image/pixel-art-cloud.jpg" mode="aspectFit" style="width: 300rpx; height: 300rpx;"></image>
+    <view class="login-btn">
+      <t-button theme="primary" size="large" icon="user-arrow-left" shape="round" open-type="getUserInfo" bindtap="handleLogin">
+        登录
+      </t-button>
+    </view>
+  </view>
+
+  <view wx:else  class="login-content">
+    <image class="image-login-false" src="/static/image/pixel-unicorn.jpg" mode="aspectFit" style="width: 300rpx; height: 300rpx;"></image>
+    <view class="user-info">
+      <image src="{{userInfo.avatarUrl}}" mode="aspectFit" style="width: 120rpx; height: 120rpx;  border: 6rpx solid #8c8bc0; border-radius: 50%;"></image>
+      <view class="welcome-text">
+        <text>{{userInfo.nickname}}</text>
+        <text>解锁了{{worldCount}}张画布</text>
+      </view>
+    </view>
+  </view>
+</view>

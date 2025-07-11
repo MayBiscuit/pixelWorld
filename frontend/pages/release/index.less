@@ -1,0 +1,120 @@
+/* pages/release/index.wxss */
+.release-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 10%;
+  padding-left: 3%;
+  // 基本信息框
+  .box {
+    width: 100%;
+  }
+  .desc {
+    height: 132rpx * 2;
+    display: flex;
+    padding: 32rpx;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+    .desc-label{
+      font-size: larger;
+      font-weight: 800;
+    }
+    .desc-class {
+      width: 246rpx * 2;
+      height: 100%;
+      padding: 6rpx;
+    }
+    .desc-class-big {
+      width: 246rpx * 2;
+      height: 100%;
+      padding: 6rpx;
+    }
+  }
+  .btn-info-confirm{
+    margin-top: 30rpx;
+  }
+  // 选择按钮组
+  .btngroup {
+    background-color: #ffffff;
+    width:400rpx;
+    border-radius: 50rpx;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-evenly;
+    padding: 32rpx;
+    position: fixed;
+    bottom: 128rpx;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    .desc-label{
+      font-size: larger;
+      font-weight: 800;
+      padding-bottom: 20rpx;
+    }
+    .btn-class {
+      width: 163.5rpx * 2;
+      margin: 20rpx;
+    }
+  }
+  // 空白底纹弹窗
+  .popup{
+    width: 240px;
+    height: 240px;
+    .popup-content {
+      padding-left: 40rpx;
+      padding-top: 60rpx;
+      text-align: center;
+      width: 200px;
+      height: 40px;
+      .grid-empty{
+        font-size: larger;
+        font-weight: 800;
+      }
+      .slider-empty{
+        margin-top:30rpx;
+        margin-bottom: 30rpx;
+      }
+      .btn-empty-cancel{
+        margin-top: 30rpx;
+        margin-right: 40rpx;
+      }
+      .btn-empty-confirm{
+        margin-top: 30rpx;
+      }
+    }
+  }
+  .overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+  // .divider-demo__title {
+  //   font-size: 28rpx;
+  //   color: var(--bg-color-demo-desc);
+  //   padding: 16rpx 32rpx;
+  //   line-height: 40rpx;
+  // }
+  
+  // .divider-wrapper {
+  //   display: flex;
+  //   align-items: center;
+  //   font-size: 28rpx;
+  //   color: var(--td-text-color-primary);
+  //   padding-left: 32rpx;
+  // }
+  
+}
+
+

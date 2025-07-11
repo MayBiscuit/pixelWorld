@@ -1,0 +1,235 @@
+/* pages/studio/index.wxss */
+.container {
+  padding: 20px;
+}
+// 画布(占位）
+.icon-container {
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 680rpx;
+  width:680rpx;
+  border: 1px dashed #ccc;
+}
+.plus-icon {
+  font-size: 100px;
+  color: #999;
+}
+// 画布（数组）
+.pixel-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30rpx;
+  margin-bottom: 65rpx;
+  // gap: 2rpx;
+}
+.pixel-row {
+  display: flex;
+}
+.pixel {
+  // width: 80rpx;
+  // height: 80rpx;
+  // border: 1rpx solid #eee;
+  box-sizing: border-box;
+  border: 1rpx solid #ddd;
+}
+.top-container {
+  margin-top: 30rpx;
+  display: flex;
+  align-items: center; 
+  justify-content: space-between; 
+}
+// 画室信息
+.world-info {
+  margin-left: 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+.world-name-row,
+.world-desc-row {
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+.edit-icon {
+  margin-left: 10rpx;
+}
+.world-name {
+  font-weight: 400;
+  font-size: 32rpx;
+}
+.world-desc {
+  font-weight: 400;
+  font-size: 24rpx;
+  color: gray;
+}
+// 功能图表行
+.function-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* 垂直居中 */
+  padding-right: 50rpx;
+}
+.icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-wrapper:not(:last-child){
+  margin-right: 30rpx;
+}
+// 色系推荐行
+.recommend-container {
+  display: flex;
+  align-items: center;
+  margin-left: 15rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  white-space: nowrap;
+}
+.recommend-container text {
+  font-size: larger;
+  font-weight: 800;
+  margin-bottom: 20rpx;
+}
+// 颜色选择
+.color-all{
+  border: 2px solid #ccc;
+  border-radius: 36rpx;
+  padding: 24rpx;
+}
+.color-container {
+  display: flex;
+  flex-direction: column;
+
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.item {
+  margin-right: 10px;
+}
+.item:last-child {
+  margin-right: 0;
+}
+.icon {
+  width: 30px;
+  height: 30px;
+}
+.circle {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+// 贴纸弹窗
+.popup{
+  width: 240px;
+  height: 340px;
+  padding: 40rpx;
+}
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tab-button {
+  flex: 1;
+}
+.search-bar {
+  margin-bottom: 16px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40rpx;
+}
+.grid-item {
+  background-color: #e0e0e0;
+  height: 150rpx;
+  width: 150rpx;
+  border-radius: 30rpx;
+}
+// 统计图
+.statistic-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 50rpx;
+  border-radius: 40rpx;
+  width: 80%;
+}
+
+.popup-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.popup-list {
+  margin-bottom: 20rpx;
+}
+
+.popup-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.color-box {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+  border: 1rpx solid #ddd;
+}
+
+.color-info {
+  flex: 1;
+  margin-left: 15rpx;
+}
+
+.color-name {
+  font-size: 28rpx;
+}
+
+.color-count {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.percentage-bar {
+  height: 20rpx;
+  margin-left: 10rpx;
+  max-width: 360rpx; /* 限制最大宽度 */
+  border: 1px solid #ddd;
+}
+
+.close-button {
+  width: 100%;
+  padding: 10rpx;
+  background-color: #007aff;
+  color: #fff;
+  font-size: 28rpx;
+  border: none;
+  border-radius: 10rpx;
+}

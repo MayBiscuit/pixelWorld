@@ -1,0 +1,170 @@
+/* pages/preTemplate/index.wxss */
+.container {
+  padding: 20px;
+}
+// 画布
+.icon-container {
+  margin-top: 100rpx;
+  margin-bottom: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+  border: 1px dashed #ccc;
+}
+.plus-icon {
+  font-size: 100px;
+  color: #999;
+}
+// 选择画布大小行
+.slider-container {
+  font-size: larger;
+  font-weight: 800;
+  padding-bottom: 60rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+.slider-container text {
+  font-size: large;
+  font-weight: 800;
+  margin-right: 10px;
+}
+// 按钮行
+.button-container{
+  padding:40rpx;
+  display: flex; 
+  justify-content: space-between; 
+  gap: 60rpx; 
+}
+// 选择模板弹窗
+.popup{
+  width: 100vw;
+  height: 40vh;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 30rpx; 
+}
+
+.tab-button {
+  flex: 1;
+}
+
+.search-bar {
+  padding-bottom: 40rpx;
+  padding-left: 20rpx;
+  padding-right:20rpx;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20rpx;
+  margin-left:30rpx;
+}
+
+.grid-item {
+  background-color: #e0e0e0;
+  height: 130rpx;
+  width: 130rpx;
+  border-radius: 30rpx;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* 设置为相对定位，方便子元素绝对定位 */
+}
+
+/* 新增标签样式 */
+.label {
+  position: absolute;
+  bottom: -30rpx; /* 调整标签距离grid-item底部的距离 */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  padding: 5rpx 10rpx;
+  font-size: 24rpx;
+  color: #333;
+}
+
+.option-container{
+  border-radius: 40rpx; /* 添加圆角边框 */
+  border: 6rpx solid #8c8bc0;
+  background-color: #f0edff;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+// 画布大小行
+.slider-container {
+  font-size: larger;
+  font-weight: 800;
+  padding-bottom: 30rpx;
+  margin:30rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+.slider-container text {
+  font-size: large;
+  font-weight: 800;
+  margin-right: 20rpx;
+  margin-top: 30rpx;
+}
+// 底纹描述块
+.label {
+  font-size: large;
+  font-weight: 800;
+  margin: 30rpx;
+}
+// 按钮行
+.input {
+  background-color: white;
+  border: 4rpx solid #ccc;
+  border-radius: 30rpx;
+  padding: 25rpx;
+  width: 550rpx;
+  height:160rpx;
+  margin: 30rpx;
+}
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-left: 60rpx;
+  margin-right: 60rpx;
+  margin-top:32rpx;
+  margin-bottom: 32rpx;
+}
+
+// 画布（数组）
+.pixel-grid {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  // gap: 2rpx;
+}
+.pixel-row {
+  display: flex;
+}
+.pixel {
+  // width: 80rpx;
+  // height: 80rpx;
+  // border: 1rpx solid #eee;
+  box-sizing: border-box;
+}
+
+
+
+
+

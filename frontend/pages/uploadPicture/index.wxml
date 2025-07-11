@@ -1,0 +1,44 @@
+<!--pages/uploadPicture/index.wxml-->
+<view class="page">
+  <view class="container">
+    <t-navbar title="导入图片" left-arrow bind:click-left="navigateBack"></t-navbar>
+    <!-- 画布(占位) -->
+    <view class="icon-container" bindtap="uploadPicture"  wx:if="{{pixelData.length === 0}}">
+      <text class="plus-icon">+</text>
+    </view>
+    <!-- 画布（数组） -->
+    <view class="pixel-grid">
+    <view 
+      wx:for="{{pixelData}}" 
+      wx:for-index="parentindex" 
+      wx:for-item="outerItem"
+      wx:key="id"
+      class="pixel-row"
+    >
+      <view 
+        wx:for="{{outerItem}}" 
+        wx:for-item="innerItem" 
+        wx:for-index="childindex" 
+        wx:key="id"
+        class="pixel" 
+        style="background-color:{{innerItem}}; width: {{pixelSize}}; height: {{pixelSize}};"
+        data-row="{{parentindex}}"
+        data-col="{{childindex}}"
+        ></view>
+      </view>
+    </view>
+  <view class="option-container">
+      <!-- 选择画布大小行 -->
+      <view class="slider-container">
+      <text>画布大小</text>
+      <t-slider  class="custom-slider" value="{{gridSize}}" min="10" max="25" step="5"  label="${value}" show-value bind:change="onGridSizeChange"></t-slider>
+    </view>
+    <!-- <t-divider class="custom-divider" /> -->
+    <!-- 按钮行 -->
+    <view class="button-container">
+      <t-icon class="icon-image" name="image-add" bindtap="uploadPicture" size="64rpx" />
+      <t-button class="confirm-button" theme="primary" bindtap="goStudio">确定</t-button>
+    </view>
+  </view>
+  </view>
+</view>

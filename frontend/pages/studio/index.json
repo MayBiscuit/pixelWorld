@@ -1,0 +1,10 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "t-navbar": "tdesign-miniprogram/navbar/navbar",
+    "t-button": "tdesign-miniprogram/button/button",
+    "t-icon": "tdesign-miniprogram/icon/icon",
+    "t-popup": "tdesign-miniprogram/popup/popup",
+    "t-color-picker": "tdesign-miniprogram/color-picker/color-picker"
+  }
+}

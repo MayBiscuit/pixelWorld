@@ -1,0 +1,39 @@
+<t-navbar title="创建画室" left-arrow />
+<view class="page">
+  <view class="release-container">
+    <!-- 基本信息框 -->
+    <view class="desc box">
+      <view class="desc-label">画室名称</view>
+      <t-textarea t-class="desc-class" t-class-textarea="placeholder-class" placeholder="输入画室名称" maxlength="20" bindchange="handleNameInput" disableDefaultPadding="{{true}}" indicator />
+    </view>
+    <t-divider content="-----------------------------------------------------------------" />
+    <view class="desc box">
+      <view class="desc-label">画室描述</view>
+      <t-textarea t-class="desc-class-big" t-class-textarea="placeholder-class" placeholder="输入画室描述" maxlength="500" bindchange="handleDescInput"  disableDefaultPadding="{{true}}" indicator />
+    </view>
+    <t-divider content="-----------------------------------------------------------------" />
+    <t-button t-class="btn-info-confirm" theme="light" content="确认信息" size="large" bindtap="createWorld"></t-button>
+    <image class="image-login-false" src="/static/image/pixel-shushu.jpg" mode="aspectFit" style="width: 450rpx; height: 450rpx;"></image>
+    <!-- 遮罩层 -->
+    <view class="overlay" wx:if="{{showButtonGroup}}"></view>
+    <!-- 选择按钮组 -->
+    <view class="btngroup box" wx:if="{{showButtonGroup}}">
+      <view class="desc-label">选择画板底纹</view>
+      <t-button t-class="btn-class" theme="light" icon="file" content="空白底纹" size="large" bindtap="goEmptyTemplate"></t-button>
+      <t-button t-class="btn-class" theme="primary" icon="image" content="内置模板" size="large" bindtap="goPreTemplate"></t-button>
+      <t-button t-class="btn-class" theme="primary" icon="upload" content="导入图片" size="large" bindtap="goUploadPicture"></t-button>
+      <t-button t-class="btn-class" theme="primary" icon="chat-bubble" content="AI生图" size="large" bindtap="goAiGenerate"></t-button>
+    </view>
+    <!-- 空白底纹弹窗 -->
+    <t-popup class="popup" direction="bottom" visible="{{popupVisible}}" placement="{{cur.value || 'center'}}" bind:after-close="closePopup">
+      <view class="popup-content">
+        <view class="slider-container">
+          <text class="grid-empty">画布大小</text>
+          <t-slider class="slider-empty" value="{{gridSize}}" min="10" max="25" step="5" label="${value}" show-value bind:change="onGridSizeChange"></t-slider>
+        </view>
+        <t-button class="btn-empty-cancel" theme="light" content="取消" size="large"  bindtap="closePopup"></t-button>
+        <t-button class="btn-empty-confirm" theme="primary" content="确定" size="large"  bindtap="goStudio"></t-button>
+      </view>
+    </t-popup>
+  </view>
+</view>
